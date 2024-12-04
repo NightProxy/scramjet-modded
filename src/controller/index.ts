@@ -90,6 +90,12 @@ export class ScramjetController {
 		return new Promise<IDBDatabase>((resolve, reject) => {
 			db.onsuccess = async () => {
 				this.db = db.result;
+				if (!this.db.objectStoreNames.contains("config")) {
+					this.db.createObjectStore("config");
+				}
+				if (!this.db.objectStoreNames.contains("cookies")) {
+					this.db.createObjectStore("cookies");
+				}
 				await this.#saveConfig();
 				resolve(db.result);
 			};
